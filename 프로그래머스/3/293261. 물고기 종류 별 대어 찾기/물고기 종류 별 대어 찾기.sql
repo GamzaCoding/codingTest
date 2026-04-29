@@ -1,0 +1,20 @@
+-- 코드를 작성해주세요
+SELECT
+    i.ID AS ID,
+    n.FISH_NAME AS FISH_NAME,
+    i.LENGTH AS LENGTH
+FROM
+    (SELECT
+        FISH_TYPE,
+        MAX(LENGTH) AS MAX_LENGTH
+     FROM
+        FISH_INFO
+     GROUP BY
+        FISH_TYPE) m
+JOIN
+    FISH_INFO i ON m.FISH_TYPE = i.FISH_TYPE
+JOIN
+    FISH_NAME_INFO n ON i.FISH_TYPE = n.FISH_TYPE
+WHERE
+    m.MAX_LENGTH = i.LENGTH;
+    
