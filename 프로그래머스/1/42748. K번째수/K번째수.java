@@ -1,30 +1,21 @@
 import java.util.*;
-import java.util.stream.Collectors;
 
 class Solution {
+  // array = [1,5,2,6,3,7,4], commands = [[2, 5, 3],[4, 4, 1],[1, 7, 3]], result = [5, 6, 7]
     public int[] solution(int[] array, int[][] commands) {
-        int[] answer = new int[commands.length];
-        
-        for (int i = 0; i < commands.length; i++) {
-            answer[i] = cal(array, commands[i]);    
+        List<Integer> answers = new ArrayList<>();
+
+        for (int[] command : commands) {
+            answers.add(getSolution(array, command));
         }
-                
-        return answer;
+
+        return answers.stream()
+                .mapToInt(x -> x).toArray();
     }
-    
-    public int cal(int[] array, int[] command) {
-        int startIndex = command[0] - 1;
-        int endIndex = command[1] - 1;
-        int targetIndex = command[2] - 1;
-        List<Integer> list = new ArrayList<>();
-            
-        for (int i = startIndex; i <= endIndex; i++) {
-            list.add(array[i]);
-        }
-        List<Integer> sortedList = list.stream()
-                               .sorted()
-                               .collect(Collectors.toList());
-        
-        return sortedList.get(targetIndex);
+
+    private int getSolution(int[] array, int[] command) {
+        int[] cuttingArray = Arrays.copyOfRange(array, command[0] - 1, command[1] + 1 - 1);
+        Arrays.sort(cuttingArray);
+        return cuttingArray[command[2] - 1];
     }
 }
